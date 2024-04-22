@@ -1,0 +1,75 @@
+:root {
+  --color-background: #ffffff;
+  --color-text: #24262d;
+  --color-text-secondary: #4c515f;
+  --color-text-placeholder: #c3c6cf;
+  --color-neutral: #f3f6f9;
+  --color-info: #00a0e8;
+  --color-danger: #d11a1e;
+}
+
+*:where(:not(html, iframe, img, svg):not(svg *)) {
+  all: unset;
+  display: revert;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
+  min-height: 100dvh;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+#root {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+
+.favicon {
+  cursor: move;
+}
+
+.link {
+  cursor: pointer;
+  color: var(--color-info);
+}
+
+.action {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
