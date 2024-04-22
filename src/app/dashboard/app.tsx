@@ -7,12 +7,12 @@ import { store } from '../../domain/tabma'
 export const App = () => {
   const [snapshot, setSnapshot] = useState<TabmaStore>({})
 
-  // マウント時のデータセット
+  // mount時の初期データセット
   useEffect(() => {
     store.getValue().then((init) => setSnapshot(init))
   }, [])
 
-  // ストアのwatch登録とアンマウント時のunwatch
+  // mount時にwatch登録とunmount時のunwatch
   useEffect(() => {
     const unwatch = store.watch((next) => {
       setSnapshot(next)
