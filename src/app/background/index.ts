@@ -20,14 +20,19 @@ export default defineBackground({
 
     browser.contextMenus.onClicked.addListener(async (info, tab) => {
       if (!tab) throw new Error('NOT_FOUND_TAB')
+
+      const currentItems = await store.getValue()
+
       switch (info.menuItemId) {
         case 'saveThisTab': {
           const item = toSaveItem(tab)
-          const storageItem = await store.getValue()
-          const latestKey = Object.keys(storageItem).toSorted().at(0)
+          const latestKey = Object.keys(currentItems).toSorted().at(0)
           if (latestKey) {
-            const latestGroup = storageItem[latestKey]
-            await store.setValue({ [latestKey]: { items: [item, ...latestGroup.items] } })
+            const latestGroup = currentItems[latestKey]
+            await store.setValue({
+              ...currentItems,
+              [latestKey]: { items: [item, ...latestGroup.items] },
+            })
           } else {
             const key = uuidv7()
             await store.setValue({ [key]: { items: [item] } })
@@ -38,7 +43,7 @@ export default defineBackground({
           const tabs = await browser.tabs.query({ pinned: false, currentWindow: true })
           const items = tabs.filter(byHttpPage).map(toSaveItem)
           const key = uuidv7()
-          await store.setValue({ [key]: { items } })
+          await store.setValue({ ...currentItems, [key]: { items } })
           break
         }
         case 'saveLeftTabs': {
@@ -48,7 +53,7 @@ export default defineBackground({
             .splice(0, tab.index - 1)
             .map(toSaveItem)
           const key = uuidv7()
-          await store.setValue({ [key]: { items } })
+          await store.setValue({ ...currentItems, [key]: { items } })
           break
         }
         case 'saveRightTabs': {
@@ -58,7 +63,7 @@ export default defineBackground({
             .splice(tab.index - 1)
             .map(toSaveItem)
           const key = uuidv7()
-          await store.setValue({ [key]: { items } })
+          await store.setValue({ ...currentItems, [key]: { items } })
           break
         }
         case 'saveExceptThisTab': {
@@ -68,7 +73,7 @@ export default defineBackground({
             .filter((_, i) => i !== tab.index - 1)
             .map(toSaveItem)
           const key = uuidv7()
-          await store.setValue({ [key]: { items } })
+          await store.setValue({ ...currentItems, [key]: { items } })
           break
         }
         case 'openDashboard': {

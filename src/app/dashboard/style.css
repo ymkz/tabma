@@ -27,6 +27,7 @@ html {
 
 body {
   min-height: 100dvh;
+  font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
